@@ -28,6 +28,10 @@
       }
     }
 
+    &:active {
+      transform: scale(0.95) translateY(0);
+    }
+
     @media(max-width: 768px) {
       font-size: 2rem;
     }
