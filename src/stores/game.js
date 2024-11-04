@@ -39,7 +39,8 @@ export const useGame = defineStore('game', {
       maxNum: 0,
       timing: 0,
     },
-    difficulty: 'hard',
+    difficulty: 'easy',
+    state: 'pick',
   }),
 
   actions: {
@@ -67,12 +68,17 @@ export const useGame = defineStore('game', {
         }
       }
     },
+
+    isEndGame() {
+      return this.state === 'gameOver' || this.state === 'gameWon'
+    },
+
     setGameDifficultyFromLocalStorage() {
       let difficulty = localStorage.getItem('gameDifficulty')
       if (difficulty) {
         this.difficulty = difficulty;
       } else {
-        return 'hard'
+        return 'easy'
       }
     },
     getDifficulty() {
@@ -95,6 +101,36 @@ export const useGame = defineStore('game', {
       }
     },
 
+    areMatrixCellsAscending() {
+      let allCellsRevealed = true;
+      let lastValue = -1;
+      for(const row of this.matrix)
+      {
+        for(const cell of row)
+        {
+          if(cell.value !== null)
+          {
+            if (cell.value < lastValue)
+            {
+              return false
+            }
+            lastValue = cell.value
+          }
+          if (!cell.isRevealed)
+          {
+            allCellsRevealed = false
+          }
+        }
+      }
+
+      if (allCellsRevealed)
+      {
+        this.state = 'gameWon'
+      }
+
+      return true
+    },
+
     setCell(i, j) {
       if (this.matrix[i][j].isRevealed) {
         return this.matrix
@@ -105,6 +141,11 @@ export const useGame = defineStore('game', {
         ...this.matrix[i][j],
         value: this.currentNumber,
         isRevealed: true,
+      }
+
+      if (!this.areMatrixCellsAscending())
+      {
+        this.state = 'gameOver'
       }
 
       this.generateNewNumber()

@@ -17,7 +17,7 @@ function handleClick(x, y) {
       <td v-for="(col, colIndex) in row" :key="colIndex">
         <div class="cell">
           <button
-            :disabled="col.isRevealed"
+            :disabled="col.isRevealed || gameStore.state !== 'pick'"
             class="clickable button cell"
             :class="col.isRevealed ? 'cell-revealed' : ''"
             @click="handleClick(col.row, col.col)"

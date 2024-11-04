@@ -4,6 +4,7 @@ import { useGame } from '@/stores/game.js'
 import GameBoard from '@/components/GameBoard.vue'
 import CurrentNumberDisplay from '@/components/CurrentNumberDisplay.vue'
 import { onMounted, ref } from 'vue'
+import EndGameMessage from '@/components/EndGameMessage.vue'
 
 const gameStore = useGame();
 const isLoaded = ref(false);
@@ -17,6 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <EndGameMessage v-if="gameStore.isEndGame()" />
   <div class="game" v-if="isLoaded" >
     <CurrentNumberDisplay />
     <div class="game-board">
