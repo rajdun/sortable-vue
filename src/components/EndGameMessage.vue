@@ -51,7 +51,7 @@ h2 {
   padding: 1rem;
   color: var(--color-text);
   border: none;
-  border-radius: 0 2rem 0 0;
+  border-radius: 0 2rem 0 1rem;
   cursor: pointer;
 }
 
