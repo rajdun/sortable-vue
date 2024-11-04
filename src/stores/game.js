@@ -41,6 +41,8 @@ export const useGame = defineStore('game', {
     },
     difficulty: 'easy',
     state: 'pick',
+    startGame: null,
+    endGame: null
   }),
 
   actions: {
@@ -54,6 +56,8 @@ export const useGame = defineStore('game', {
       this.difficulty = difficulty // Update the difficulty in the state
       this.generateNewNumber()
       this.state = 'pick'
+      this.startGame = Date.now();
+      this.endGame = null;
 
       // Initialize the matrix
       this.matrix = [] // Reset the matrix
@@ -126,6 +130,7 @@ export const useGame = defineStore('game', {
 
       if (allCellsRevealed)
       {
+        this.endGame = Date.now();
         this.state = 'gameWon'
       }
 
@@ -146,6 +151,7 @@ export const useGame = defineStore('game', {
 
       if (!this.areMatrixCellsAscending())
       {
+        this.endGame = Date.now();
         this.state = 'gameOver'
       }
 

@@ -36,6 +36,8 @@
   --section-gap: 160px;
   --button-bg-color: #2C2C2C;
   --button-bg-color-light: #3C3C3C;
+  --color-success: #2ecc71;
+  --color-danger: #e74c3c;
 }
 
 *,
@@ -64,6 +66,14 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.color-danger {
+  color: var(--color-danger);
+}
+
+.color-success {
+  color: var(--color-success);
 }
 
 @keyframes jumpToTop {
