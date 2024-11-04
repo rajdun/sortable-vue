@@ -9,7 +9,7 @@ const game = useGame();
   <div class="container">
     <h1 v-if="game.state === 'gameOver'">Game Over</h1>
     <h1 v-else-if="game.state === 'gameWon'">You Won!</h1>
-    <button @click="console.log(123)">Play Again</button>
+    <button @click="game.setDifficulty(game.getDifficulty())">Play Again</button>
   </div>
 </template>
 

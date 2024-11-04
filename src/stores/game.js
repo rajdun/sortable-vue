@@ -53,6 +53,7 @@ export const useGame = defineStore('game', {
       localStorage.setItem('gameDifficulty', difficulty)
       this.difficulty = difficulty // Update the difficulty in the state
       this.generateNewNumber()
+      this.state = 'pick'
 
       // Initialize the matrix
       this.matrix = [] // Reset the matrix
