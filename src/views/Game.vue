@@ -5,8 +5,10 @@ import GameBoard from '@/components/GameBoard.vue'
 import CurrentNumberDisplay from '@/components/CurrentNumberDisplay.vue'
 import { onMounted, ref } from 'vue'
 import EndGameMessage from '@/components/EndGameMessage.vue'
+import { useRouter } from 'vue-router'
 
 const gameStore = useGame();
+const rounter = useRouter();
 const isLoaded = ref(false);
 
 onMounted(() => {
@@ -19,6 +21,7 @@ onMounted(() => {
 
 <template>
   <EndGameMessage v-if="gameStore.isEndGame()" />
+  <h1 @click="rounter.push('/')" class="ingame-title">Sortable</h1>
   <div class="game" v-if="isLoaded" >
     <CurrentNumberDisplay />
     <div class="game-board">
@@ -27,10 +30,18 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .game-board {
     display: flex;
     justify-content: center;
+  }
+
+  .ingame-title {
+    text-decoration: none !important;
+    color: var(--color-text);
+    font-size: 3rem;
+    margin: 0rem 1rem;
+    cursor: pointer;
   }
 
   .game{

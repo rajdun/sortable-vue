@@ -1,8 +1,10 @@
 <script setup>
 
 import { useGame } from '@/stores/game.js'
+import { useRouter } from 'vue-router'
 
 const game = useGame();
+const router = useRouter();
 </script>
 
 <template>
@@ -10,6 +12,7 @@ const game = useGame();
     <h1 v-if="game.state === 'gameOver'">Game Over</h1>
     <h1 v-else-if="game.state === 'gameWon'">You Won!</h1>
     <button @click="game.setDifficulty(game.getDifficulty())">Play Again</button>
+    <button @click="router.push('/')">Home</button>
   </div>
 </template>
 
@@ -21,5 +24,6 @@ const game = useGame();
   justify-content: center;
   align-items: center;
   height: 100vh;
+  z-index: 99;
 }
 </style>
