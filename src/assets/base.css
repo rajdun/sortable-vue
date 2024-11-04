@@ -82,7 +82,18 @@ body {
   }
 }
 
+.button{
+  font-weight: 700;
+  background: var(--button-bg-color);
+  outline: none;
+  border: none;
+  border-radius: 5rem;
+  color: white;
+}
+
 .clickable{
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
   &:hover {
     background: var(--button-bg-color-light);
     transform: scale(1.05) translateY(-2%);
