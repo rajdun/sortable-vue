@@ -6,6 +6,7 @@ import CurrentNumberDisplay from '@/components/CurrentNumberDisplay.vue'
 import { onMounted, ref } from 'vue'
 import EndGameMessage from '@/components/EndGameMessage.vue'
 import { useRouter } from 'vue-router'
+import QuickSettings from '@/components/QuickSettings.vue'
 
 const gameStore = useGame();
 const rounter = useRouter();
@@ -21,6 +22,7 @@ onMounted(() => {
 
 <template>
   <EndGameMessage v-if="gameStore.isEndGame()" />
+  <QuickSettings />
   <h1 @click="rounter.push('/')" class="ingame-title">Sortable</h1>
   <div class="game" v-if="isLoaded" >
     <CurrentNumberDisplay />
