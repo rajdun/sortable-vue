@@ -1,9 +1,15 @@
 <script setup>
 
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  animateStartGame: Boolean
+});
+
 </script>
 
 <template>
-  <footer>
+  <footer :class="animateStartGame ? 'jumpToBottom' : ''">
     <hr>
     <p>How to play</p>
   </footer>
@@ -15,7 +21,6 @@
     text-align: center;
     font-size: 5rem;
     font-weight: 700;
-    animation: jumpFromBottom 1s ease-in-out;
     transition: all 0.25s ease-in-out;
     &:hover {
       cursor: pointer;

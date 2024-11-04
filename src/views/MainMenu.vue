@@ -3,13 +3,21 @@
 import MainTitle from '@/components/MainTitle.vue'
 import StartGameButton from '@/components/StartGameButton.vue'
 import HowToPlayButton from '@/components/HowToPlayButton.vue'
+import { ref } from 'vue'
+
+const animateStartGame = ref(false);
+
+function startGameAnimation(){
+  animateStartGame.value = true;
+}
+
 </script>
 
 <template>
   <div class="menuGroup">
-    <MainTitle />
-    <StartGameButton />
-    <HowToPlayButton />
+    <MainTitle :animateStartGame="animateStartGame" />
+    <StartGameButton @startGame="startGameAnimation" />
+    <HowToPlayButton :animateStartGame="animateStartGame" />
   </div>
 </template>
 

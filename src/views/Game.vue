@@ -32,4 +32,20 @@ onMounted(() => {
     display: flex;
     justify-content: center;
   }
+
+  .game{
+    animation: show 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes show {
+    0% {
+      opacity: 0;
+      transform: scale(0) translateY(-5%);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
 </style>

@@ -2,11 +2,16 @@
 import { useGreetings } from '@/stores/greetings.js'
 
 const greetingStore = useGreetings()
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  animateStartGame: Boolean
+})
 </script>
 
 <template>
-  <header>
-    <h1 class="title">Sortable</h1>
+  <header :class="animateStartGame ? 'jumpToTop' : ''" >
+    <h1 class="title" >Sortable</h1>
     <p class="subtitle">{{ greetingStore.getRandomGreeting() }}</p>
   </header>
 </template>
