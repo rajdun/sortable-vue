@@ -19,38 +19,37 @@ function toggleSettingsWindow() {
 
 <template>
   <div class="quickSettings">
-    <span @click="resetGame" class=""><img src="/reset.svg" alt="reset"></span>
-    <span @click="toggleSettingsWindow" class=""><img src="/settings.svg" alt="settings"></span>
+    <div class="button-group">
+      <div @click="resetGame" class=""><img class="icon" src="/reset.svg" alt="reset"></div>
+      <div @click="toggleSettingsWindow" class=""><img class="icon" src="/settings.svg" alt="settings"></div>
+    </div>
     <SettingsWindow v-if="settingsWindowVisible" />
   </div>
 </template>
 
 <style scoped>
-.quickSettings {
+.button-group{
   display: flex;
-  position: fixed;
-  justify-content: right;
-  right: 0px;
-  z-index: 200;
+  justify-content: center;
+  gap: 1rem;
 
-  & > span {
-    padding: 0.75rem 1rem;
+  & > div {
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 
     &:hover {
       transform: scale(1.1) translateY(-5%);
     }
+  }
+}
 
-    & > img {
-      width: 5rem;
-      height: 5rem;
+.icon {
+  width: 5rem;
+  height: 5rem;
 
-      @media (max-width: 768px) {
-        width: 2rem;
-        height: 2rem;
-      }
-    }
+  @media (max-width: 768px) {
+    width: 2rem;
+    height: 2rem;
   }
 }
 </style>

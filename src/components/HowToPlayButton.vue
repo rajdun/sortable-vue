@@ -17,7 +17,10 @@ const props = defineProps({
 
 <style scoped lang="scss">
   footer {
-    padding: 3rem;
+    display: flex;
+    margin: 5rem auto;
+    flex-direction: column;
+    justify-content: end;
     text-align: center;
     font-size: 5rem;
     font-weight: 700;

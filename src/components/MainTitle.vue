@@ -24,17 +24,17 @@ const props = defineProps({
     text-align: center;
 
     @media (max-width: 768px) {
-      font-size: 5rem;
+      font-size: 4rem;
     }
   }
 
   .subtitle {
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 600;
     margin: 0 auto;
     text-align: center;
     overflow: hidden;
-    animation: typing 1.5s steps(40, end);
+    animation: typing 2.5s steps(40, end);
     white-space: nowrap;
 
     @media (max-width: 768px) {

@@ -23,11 +23,9 @@ function startGameAnimation(){
 
 <style scoped>
   .menuGroup{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    display: grid;
     height: 100vh;
     width: 100%;
+    grid-template-rows: 2fr 1fr 2fr;
   }
 </style>

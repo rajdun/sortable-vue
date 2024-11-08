@@ -17,16 +17,23 @@ function handleClick() {
 </script>
 
 <template>
-  <button @click="handleClick" :class="startGameAnimation ? 'jumpToBottom' : ''" class="clickable button">PLAY</button>
+  <div class="startGameButton">
+    <button @click="handleClick" :class="startGameAnimation ? 'jumpToBottom' : ''" class="clickable button">PLAY</button>
+  </div>
 </template>
 
 <style scoped lang="scss">
+  .startGameButton {
+    text-align: center;
+  }
   button {
     padding: 0.5rem 2rem;
     font-size: 10rem;
+    width: 40rem;
 
     @media(max-width: 768px) {
       font-size: 5rem;
+      width: 20rem;
     }
   }
 
