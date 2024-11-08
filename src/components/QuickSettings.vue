@@ -23,7 +23,7 @@ function toggleSettingsWindow() {
       <div @click="resetGame" class=""><img class="icon" src="/reset.svg" alt="reset"></div>
       <div @click="toggleSettingsWindow" class=""><img class="icon" src="/settings.svg" alt="settings"></div>
     </div>
-    <SettingsWindow v-if="settingsWindowVisible" />
+    <SettingsWindow @close="settingsWindowVisible = false" v-if="settingsWindowVisible" />
   </div>
 </template>
 

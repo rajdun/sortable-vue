@@ -6,6 +6,8 @@ import { onMounted, ref } from 'vue'
 const game = useGame();
 const currentDifficulty = ref('medium');
 
+const emit = defineEmits(['close'])
+
 function setDifficulty(difficulty) {
   game.setDifficulty(difficulty);
 }
@@ -19,6 +21,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <div @click="emit('close')" class="background">
+
+  </div>
   <div class="settingsWindow">
     <h1>Settings</h1>
     <hr>
@@ -36,9 +41,18 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
  .settingsWindow{
     position: fixed;
-    top: 50vh;
+    top: 25vh;
     left: 50vw;
     background-color: var(--color-background-soft);
     color: var(--color-text);
