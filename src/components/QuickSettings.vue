@@ -46,10 +46,5 @@ function toggleSettingsWindow() {
 .icon {
   width: 5rem;
   height: 5rem;
-
-  @media (max-width: 768px) {
-    width: 2rem;
-    height: 2rem;
-  }
 }
 </style>
