@@ -55,7 +55,7 @@ function hideWindow() {
 
 <style scoped>
 h1 {
-  font-size: 8rem;
+  font-size: 6rem;
 }
 h2 {
   font-size: 5rem;
@@ -123,7 +123,7 @@ h2 {
   transition: transform 0.5s ease-in-out;
 
   @media (max-width: 768px) {
-    top: 66vh;
+    top: 33vh;
     bottom: 0px;
     left: 0px;
     right: 0px;
