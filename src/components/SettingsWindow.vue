@@ -68,12 +68,12 @@ onMounted(() => {
  }
 
  h1{
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: bold;
  }
 
 .optionTitle{
-  font-size: 1.5rem;
+  font-size: 2.5rem;
 }
 
  hr {
@@ -89,12 +89,13 @@ onMounted(() => {
  .difficulty input[type="radio"] {
    appearance: none;
    -webkit-appearance: none;
-   width: 1.51rem;
-   height: 1rem;
+   width: 3rem;
+   height: 2rem;
    margin: 0 0.15rem;
    border: 0.2rem solid white;
    background-color: var(--color-background-soft);
    position: relative;
+   cursor: pointer;
  }
 
  .difficulty input[type="radio"]:checked {
