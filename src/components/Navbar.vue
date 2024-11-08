@@ -42,11 +42,6 @@ import QuickSettings from '@/components/QuickSettings.vue'
   font-size: 2rem;
   cursor: pointer;
 
-  @media(max-width: 768px){
-    font-size: 1.5rem;
-    padding: 0.25rem;
-  }
-
   &>h1{
     font-weight: bold;
   }

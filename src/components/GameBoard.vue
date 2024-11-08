@@ -36,13 +36,6 @@ function handleClick(x, y) {
   border-radius: 2rem;
   width: 9rem;
   height: 9rem;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 1rem;
-  }
 }
 
 table {

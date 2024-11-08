@@ -23,9 +23,6 @@ const props = defineProps({
     margin: 0;
     text-align: center;
 
-    @media (max-width: 768px) {
-      font-size: 4rem;
-    }
   }
 
   .subtitle {
@@ -37,9 +34,6 @@ const props = defineProps({
     animation: typing 2.5s steps(40, end);
     white-space: nowrap;
 
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
-    }
   }
 
   @keyframes typing {

@@ -24,9 +24,6 @@ const gameStore = useGame();
     margin: auto;
 
     @media(max-width: 768px) {
-      h1 {
-        font-size: 5rem;
-      }
       width: 60vw;
     }
   }

@@ -56,17 +56,9 @@ function hideWindow() {
 <style scoped>
 h1 {
   font-size: 8rem;
-
-  @media (max-width: 768px) {
-    font-size: 3rem;
-  }
 }
 h2 {
   font-size: 5rem;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
 }
 
 .showWindowButton {
@@ -96,9 +88,6 @@ h2 {
   border-radius: 2rem 2rem;
   cursor: pointer;
 
-  @media (max-width: 768px) {
-    padding: 0.5rem;
-  }
 }
 
 
@@ -114,10 +103,6 @@ h2 {
   margin: 1rem;
   padding: 2rem;
   font-size: 4rem;
-
-  @media (max-width: 768px) {
-    font-size: 1.25rem;
-  }
 }
 .container {
   position: fixed;
