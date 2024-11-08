@@ -53,7 +53,8 @@ onMounted(() => {
  .settingsWindow{
     position: fixed;
     top: 25vh;
-    left: 50vw;
+    left: calc(50vw - 20rem);
+    width: 40rem;
     background-color: var(--color-background-soft);
     color: var(--color-text);
     display: flex;
@@ -65,6 +66,8 @@ onMounted(() => {
     border-radius: 2rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     text-align: left;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
    @media (max-width: 768px) {
      left: 0;

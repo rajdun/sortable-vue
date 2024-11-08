@@ -20,16 +20,24 @@ onMounted(() => {
 
 <template>
   <EndGameMessage v-if="gameStore.isEndGame()" />
-  <Navbar />
-  <div class="game" v-if="isLoaded" >
-    <CurrentNumberDisplay />
-    <div class="game-board">
-      <GameBoard />
+  <div class="container">
+    <Navbar />
+    <div class="game" v-if="isLoaded" >
+      <CurrentNumberDisplay />
+      <div class="game-board">
+        <GameBoard />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+  .container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
   .game-board {
     display: flex;
     justify-content: center;
