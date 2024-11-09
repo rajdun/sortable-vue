@@ -12,18 +12,21 @@ function getConfigBasedOnDifficulty(difficulty) {
       cols: 2,
       maxNum: 10,
       timing: 10,
+      rerolls: 3,
     },
     medium: {
       rows: 3,
       cols: 3,
       maxNum: 100,
       timing: 5,
+      rerolls: 2,
     },
     hard: {
       rows: 4,
       cols: 4,
       maxNum: 1000,
       timing: 3,
+      rerolls: 1,
     }
   }
   return config[difficulty]
@@ -38,14 +41,25 @@ export const useGame = defineStore('game', {
       cols: 0,
       maxNum: 0,
       timing: 0,
+      rerolls: 0,
     },
     difficulty: 'easy',
     state: 'pick',
     startGame: null,
-    endGame: null
+    endGame: null,
+    rerollsLeft: 0,
+    timerSetTimestamp: null,
+    timerInstance: null,
   }),
 
   actions: {
+    getTimeLeft(){
+      if (this.state === 'gameOver' || this.state === 'gameWon' || this.timerInstance === null)
+      {
+        return 100
+      }
+      return Math.max(0, this.config.timing - (Date.now() - this.timerSetTimestamp) / 1000)
+    },
     setDifficulty(difficulty) {
       if (!['easy', 'medium', 'hard'].includes(difficulty)) {
         throw new Error('Invalid difficulty')
@@ -58,6 +72,7 @@ export const useGame = defineStore('game', {
       this.state = 'pick'
       this.startGame = Date.now();
       this.endGame = null;
+      this.rerollsLeft = this.config.rerolls;
 
       // Initialize the matrix
       this.matrix = [] // Reset the matrix
@@ -132,6 +147,8 @@ export const useGame = defineStore('game', {
       {
         this.endGame = Date.now();
         this.state = 'gameWon'
+        this.timerSetTimestamp = null;
+        clearTimeout(this.timerInstance);
       }
 
       return true
@@ -153,9 +170,21 @@ export const useGame = defineStore('game', {
       {
         this.endGame = Date.now();
         this.state = 'gameOver'
+        this.timerSetTimestamp = null;
+        clearTimeout(this.timerInstance);
       }
 
       this.generateNewNumber()
+
+      this.timerInstance = setTimeout(() => {
+        if (this.state !== 'pick')
+        {
+          return
+        }
+        this.state = 'gameOver';
+        this.endGame = Date.now();
+      }, this.config.timing * 1000);
+      this.timerSetTimestamp = Date.now();
 
       // Return the updated matrix if needed
       return this.matrix

@@ -1,14 +1,25 @@
 <script setup>
 
+import ProgressBar from '@/components/ProgressBar.vue'
+import { ref } from 'vue'
 import { useGame } from '@/stores/game.js'
 
+const timePercentage = ref(0);
 const gameStore = useGame();
+
+setInterval(function() {
+  const timeLeft = gameStore.getTimeLeft();
+  const config = gameStore.getConfig();
+
+  timePercentage.value = timeLeft / config.timing * 100;
+}, 100);
+
 </script>
 
 <template>
   <div class="currentNumberDisplay">
     <h1>{{ gameStore.getCurrentNumber() }}</h1>
-    <hr>
+    <ProgressBar :value="timePercentage" />
   </div>
 </template>
 
@@ -18,6 +29,8 @@ const gameStore = useGame();
     margin: 0;
     text-align: center;
   }
+
+
 
   .currentNumberDisplay{
     width: 30vw;

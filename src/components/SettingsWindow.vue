@@ -8,14 +8,20 @@ const currentDifficulty = ref('medium');
 
 const emit = defineEmits(['close'])
 
+const config = ref(null);
+
 function setDifficulty(difficulty) {
   game.setDifficulty(difficulty);
+
+  config.value = game.getConfig();
 }
 
 onMounted(() => {
   currentDifficulty.value = game.getDifficulty();
 
   document.querySelector(`input[value="${currentDifficulty.value}"]`).checked = true;
+
+  config.value = game.getConfig();
 })
 
 </script>
@@ -35,6 +41,14 @@ onMounted(() => {
           <input @click="setDifficulty('medium')" type="radio" name="difficulty" value="medium" id="">
           <input @click="setDifficulty('hard')" type="radio" name="difficulty" value="hard" id="">
         </span>
+      </div>
+      <div v-if="config">
+        <hr>
+        <span class="optionTitle">Time: </span>
+        <span class="optionValue">{{config.timing}}s</span>
+        <hr>
+        <span class="optionTitle">Rerolls: </span>
+        <span class="optionValue">{{config.rerolls}}</span>
       </div>
     </div>
   </div>
@@ -91,6 +105,11 @@ onMounted(() => {
 
 .optionTitle{
   font-size: 2.5rem;
+}
+
+.optionValue{
+  font-size: 2rem;
+  color: var(--vt-c-white-mute);
 }
 
  hr {

@@ -19,7 +19,6 @@
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: var(--vt-c-white);
 }
 
 :root {
@@ -31,7 +30,9 @@
   --color-border-hover: var(--vt-c-divider-dark-1);
 
   --color-heading: var(--vt-c-text-dark-1);
-  --color-text: var(--vt-c-text-dark-2);
+  --color-text: var(--vt-c-white);
+  --color-text-soft: var(--vt-c-white-soft);
+  --color-text-mute: var(--vt-c-white-mute);
 
   --section-gap: 160px;
   --button-bg-color: #2C2C2C;
