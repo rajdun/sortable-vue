@@ -9,7 +9,7 @@ const displayMessage = ref(true);
 const animateWindow = ref(false);
 
 const gameTime = computed(() => {
-  const duration = game.endGame - game.startGame;
+  const duration = game.endTime - game.startTime;
   const minutes = Math.floor(duration / 60000);
   const seconds = Math.floor((duration % 60000) / 1000);
   const miliseconds = Math.floor((duration % 1000) / 10);
@@ -40,16 +40,16 @@ function hideWindow() {
   <button @click="showWindow" class="showWindowButton button clickable" v-if="!displayMessage">
     <img src="/arrowUp.svg" alt="Arrow Up" />
   </button>
-  <div v-if="displayMessage" class="container" :class="[{'greenBorder': game.state === 'gameWon', 'redBorder': game.state !== 'gameWon'}, {'hideWindow': animateWindow}]">
-    <button @click="hideWindow" class="button close-button" :class="game.state === 'gameWon' ? 'bg-success' : 'bg-danger'">
+  <div v-if="displayMessage" class="container" :class="[{'greenBorder': game.gameState === 'gameWon', 'redBorder': game.gameState !== 'gameWon'}, {'hideWindow': animateWindow}]">
+    <button @click="hideWindow" class="button close-button" :class="game.gameState === 'gameWon' ? 'bg-success' : 'bg-danger'">
       <img src="/close.svg" alt="Close" />
     </button>
     <div>
-      <h1 v-if="game.state === 'gameOver'" class="color-danger">Game Over</h1>
-      <h1 v-else-if="game.state === 'gameWon'" class="color-success">You Won!</h1>
+      <h1 v-if="game.gameState === 'gameOver'" class="color-danger">Game Over</h1>
+      <h1 v-else-if="game.gameState === 'gameWon'" class="color-success">You Won!</h1>
     </div>
     <h2>Time: {{ gameTime }}</h2>
-    <button class="button option clickable" @click="game.setDifficulty(game.getDifficulty())">Play Again</button>
+    <button class="button option clickable" @click="game.setDifficulty(game.difficulty)">Play Again</button>
   </div>
 </template>
 

@@ -8,7 +8,8 @@ const game = useGame();
 const settingsWindowVisible = ref(false);
 
 function resetGame() {
-  game.setDifficulty(game.getDifficulty());
+  game.setDifficulty(game.difficulty);
+  game.initializeGame();
 }
 
 function toggleSettingsWindow() {

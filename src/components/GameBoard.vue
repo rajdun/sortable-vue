@@ -7,6 +7,7 @@ const gameStore = useGame()
 const matrix = computed(() => gameStore.getMatrix().matrix)
 
 function handleClick(x, y) {
+  console.log(321)
   gameStore.setCell(x, y)
 }
 </script>
@@ -17,12 +18,12 @@ function handleClick(x, y) {
       <td v-for="(col, colIndex) in row" :key="colIndex">
         <div class="cell">
           <button
-            :disabled="col.isRevealed || gameStore.state !== 'pick'"
+            :disabled="col.isRevealed || gameStore.gameState !== 'pick'"
             class="clickable button cell"
             :class="col.isRevealed ? 'cell-revealed' : ''"
-            @click="handleClick(col.row, col.col)"
+            @click="handleClick(rowIndex, colIndex)"
           >
-            {{ col.isRevealed ? col.value : col.row * gameStore.getMatrix().cols + col.col + 1 }}
+          {{ col.isRevealed ? col.value : rowIndex * gameStore.getMatrix().cols + colIndex + 1 }}
           </button>
         </div>
       </td>

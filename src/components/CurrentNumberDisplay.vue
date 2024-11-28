@@ -18,7 +18,7 @@ setInterval(function() {
 
 <template>
   <div class="currentNumberDisplay">
-    <h1>{{ gameStore.getCurrentNumber() }}</h1>
+    <h1>{{ gameStore.currentNumber }}</h1>
     <ProgressBar :value="timePercentage" />
   </div>
 </template>

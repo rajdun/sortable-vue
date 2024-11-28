@@ -1,40 +1,44 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 /**
- * Returns configuration based on the difficulty level.
+ * Configuration settings based on difficulty levels.
+ */
+const difficultyConfigs = {
+  easy: {
+    rows: 2,
+    cols: 2,
+    maxNum: 10,
+    timing: 10,
+    rerolls: 3,
+  },
+  medium: {
+    rows: 3,
+    cols: 3,
+    maxNum: 100,
+    timing: 5,
+    rerolls: 2,
+  },
+  hard: {
+    rows: 4,
+    cols: 4,
+    maxNum: 1000,
+    timing: 3,
+    rerolls: 1,
+  },
+};
+
+/**
+ * Retrieves the configuration for the given difficulty level.
  * @param {string} difficulty
  * @returns {Object}
  */
-function getConfigBasedOnDifficulty(difficulty) {
-  let config = {
-    easy: {
-      rows: 2,
-      cols: 2,
-      maxNum: 10,
-      timing: 10,
-      rerolls: 3,
-    },
-    medium: {
-      rows: 3,
-      cols: 3,
-      maxNum: 100,
-      timing: 5,
-      rerolls: 2,
-    },
-    hard: {
-      rows: 4,
-      cols: 4,
-      maxNum: 1000,
-      timing: 3,
-      rerolls: 1,
-    }
-  }
-  return config[difficulty]
+function getConfigByDifficulty(difficulty) {
+  return difficultyConfigs[difficulty];
 }
 
 export const useGame = defineStore('game', {
   state: () => ({
-    matrix: [], // Initialize as an empty array
+    matrix: [],
     currentNumber: 0,
     config: {
       rows: 0,
@@ -44,166 +48,203 @@ export const useGame = defineStore('game', {
       rerolls: 0,
     },
     difficulty: 'easy',
-    state: 'pick',
-    startGame: null,
-    endGame: null,
+    gameState: 'pick', // Possible values: 'pick', 'gameOver', 'gameWon'
+    startTime: null,
+    endTime: null,
     rerollsLeft: 0,
-    timerSetTimestamp: null,
+    timerStartTimestamp: null,
     timerInstance: null,
   }),
 
   actions: {
-    getTimeLeft(){
-      if (this.state === 'gameOver' || this.state === 'gameWon' || this.timerInstance === null)
-      {
-        return 100
+    /**
+     * Calculates the remaining time in seconds.
+     * @returns {number}
+     */
+    getTimeLeft() {
+      if (this.isGameOver() || !this.timerInstance) {
+        return 100;
       }
-      return Math.max(0, this.config.timing - (Date.now() - this.timerSetTimestamp) / 1000)
+      const elapsedTime = (Date.now() - this.timerStartTimestamp) / 1000;
+      return Math.max(0, this.config.timing - elapsedTime);
     },
+
+    /**
+     * Sets the difficulty level and initializes the game accordingly.
+     * @param {string} difficulty
+     */
     setDifficulty(difficulty) {
       if (!['easy', 'medium', 'hard'].includes(difficulty)) {
-        throw new Error('Invalid difficulty')
+        throw new Error('Invalid difficulty');
       }
 
-      this.config = getConfigBasedOnDifficulty(difficulty)
-      localStorage.setItem('gameDifficulty', difficulty)
-      this.difficulty = difficulty // Update the difficulty in the state
-      this.generateNewNumber()
-      this.state = 'pick'
-      this.startGame = Date.now();
-      this.endGame = null;
+      this.config = getConfigByDifficulty(difficulty);
+      this.difficulty = difficulty;
+      localStorage.setItem('gameDifficulty', difficulty);
+
+      this.initializeGame();
+    },
+
+    /**
+     * Initializes the game state.
+     */
+    initializeGame() {
+      this.generateNewNumber();
+      this.gameState = 'pick';
+      this.startTime = null;
+      this.endTime = null;
       this.rerollsLeft = this.config.rerolls;
+      this.timerStartTimestamp = null;
+      clearTimeout(this.timerInstance);
 
       // Initialize the matrix
-      this.matrix = [] // Reset the matrix
-      for (let i = 0; i < this.config.rows; i++) {
-        this.matrix[i] = []
-        for (let j = 0; j < this.config.cols; j++) {
-          this.matrix[i][j] = {
-            value: null,
-            isRevealed: false,
-            row: i,
-            col: j,
+      this.matrix = Array.from({ length: this.config.rows }, (_, rowIndex) =>
+        Array.from({ length: this.config.cols }, (_, colIndex) => ({
+          value: null,
+          isRevealed: false,
+          row: rowIndex,
+          col: colIndex,
+        }))
+      );
+    },
+
+    /**
+     * Checks if the game has ended.
+     * @returns {boolean}
+     */
+    isGameOver() {
+      return this.gameState === 'gameOver' || this.gameState === 'gameWon';
+    },
+
+    /**
+     * Loads the game difficulty from local storage.
+     */
+    loadDifficultyFromLocalStorage() {
+      const difficulty = localStorage.getItem('gameDifficulty');
+      this.difficulty = difficulty || 'easy';
+    },
+
+    /**
+     * Generates a new random number for the current turn.
+     */
+    generateNewNumber() {
+      this.currentNumber = Math.floor(Math.random() * this.config.maxNum);
+    },
+
+    /**
+     * Checks if all revealed cells in the matrix are in ascending order.
+     * If all cells are revealed and in order, the game is won.
+     * @returns {boolean}
+     */
+    checkAscendingOrder() {
+      let lastValue = -Infinity;
+      let allCellsRevealed = true;
+
+      for (const row of this.matrix) {
+        for (const cell of row) {
+          if (!cell.isRevealed) {
+            allCellsRevealed = false;
+            continue;
           }
+          if (cell.value < lastValue) {
+            return false;
+          }
+          lastValue = cell.value;
         }
       }
-    },
 
-    isEndGame() {
-      return this.state === 'gameOver' || this.state === 'gameWon'
-    },
-
-    setGameDifficultyFromLocalStorage() {
-      let difficulty = localStorage.getItem('gameDifficulty')
-      if (difficulty) {
-        this.difficulty = difficulty;
-      } else {
-        return 'easy'
+      if (allCellsRevealed) {
+        this.endGame('gameWon');
       }
-    },
-    getDifficulty() {
-      return this.difficulty
+
+      return true;
     },
 
-    getCurrentNumber() {
-      return this.currentNumber
+    /**
+     * Handles the end of the game.
+     * @param {string} state - 'gameOver' or 'gameWon'
+     */
+    endGame(state) {
+      this.gameState = state;
+      this.endTime = Date.now();
+      this.timerStartTimestamp = null;
+      clearTimeout(this.timerInstance);
     },
 
-    generateNewNumber() {
-      this.currentNumber = Math.floor(Math.random() * this.config.maxNum)
+    /**
+     * Sets the value of a cell in the matrix.
+     * @param {number} rowIndex
+     * @param {number} colIndex
+     */
+    setCell(rowIndex, colIndex) {
+      if (this.startTime === null) {
+        this.startTime = Date.now();
+      }
+      const cell = this.matrix[rowIndex][colIndex];
+
+      if (cell.isRevealed || this.isGameOver()) {
+        return;
+      }
+
+      // Update the cell
+      cell.value = this.currentNumber;
+      cell.isRevealed = true;
+
+      // Check game state
+      if (!this.checkAscendingOrder()) {
+        this.endGame('gameOver');
+        return;
+      }
+
+      // Generate new number and reset timer
+      this.generateNewNumber();
+      this.resetTimer();
     },
 
+    /**
+     * Resets the turn timer.
+     */
+    resetTimer() {
+      clearTimeout(this.timerInstance);
+
+      this.timerInstance = setTimeout(() => {
+        if (this.gameState !== 'pick') {
+          return;
+        }
+        this.endGame('gameOver');
+      }, this.config.timing * 1000);
+
+      this.timerStartTimestamp = Date.now();
+    },
+
+    /**
+     * Retrieves the current game matrix and dimensions.
+     * @returns {Object}
+     */
     getMatrix() {
       return {
         matrix: this.matrix,
         rows: this.config.rows,
         cols: this.config.cols,
-      }
+      };
     },
 
-    areMatrixCellsAscending() {
-      let allCellsRevealed = true;
-      let lastValue = -1;
-      for(const row of this.matrix)
-      {
-        for(const cell of row)
-        {
-          if(cell.value !== null)
-          {
-            if (cell.value < lastValue)
-            {
-              return false
-            }
-            lastValue = cell.value
-          }
-          if (!cell.isRevealed)
-          {
-            allCellsRevealed = false
-          }
-        }
-      }
-
-      if (allCellsRevealed)
-      {
-        this.endGame = Date.now();
-        this.state = 'gameWon'
-        this.timerSetTimestamp = null;
-        clearTimeout(this.timerInstance);
-      }
-
-      return true
+    /**
+     * Retrieves a specific cell from the matrix.
+     * @param {number} rowIndex
+     * @param {number} colIndex
+     * @returns {Object}
+     */
+    getCell(rowIndex, colIndex) {
+      return this.matrix[rowIndex][colIndex];
     },
 
-    setCell(i, j) {
-      if (this.matrix[i][j].isRevealed) {
-        return this.matrix
-      }
-
-      // Update the cell in the matrix
-      this.matrix[i][j] = {
-        ...this.matrix[i][j],
-        value: this.currentNumber,
-        isRevealed: true,
-      }
-
-      if (!this.areMatrixCellsAscending())
-      {
-        this.endGame = Date.now();
-        this.state = 'gameOver'
-        this.timerSetTimestamp = null;
-        clearTimeout(this.timerInstance);
-      }
-
-      this.generateNewNumber()
-
-      this.timerInstance = setTimeout(() => {
-        if (this.state !== 'pick')
-        {
-          return
-        }
-        this.state = 'gameOver';
-        this.endGame = Date.now();
-      }, this.config.timing * 1000);
-      this.timerSetTimestamp = Date.now();
-
-      // Return the updated matrix if needed
-      return this.matrix
-    },
-
-    isCellRevealed(i, j) {
-      return this.matrix[i][j].isRevealed
-    },
-
-    getCellValue(i, j) {
-      return this.matrix[i][j].value
-    },
-
+    /**
+     * Retrieves the current game configuration.
+     * @returns {Object}
+     */
     getConfig() {
-      return this.config
-    },
-
-    getCell(i, j) {
-      return this.matrix[i][j]
+      return this.config;
     },
   },
-})
+});

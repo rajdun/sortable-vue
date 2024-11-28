@@ -14,10 +14,12 @@ function setDifficulty(difficulty) {
   game.setDifficulty(difficulty);
 
   config.value = game.getConfig();
+
+  game.initializeGame();
 }
 
 onMounted(() => {
-  currentDifficulty.value = game.getDifficulty();
+  currentDifficulty.value = game.difficulty;
 
   document.querySelector(`input[value="${currentDifficulty.value}"]`).checked = true;
 

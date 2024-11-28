@@ -12,14 +12,15 @@ const isLoaded = ref(false);
 
 onMounted(() => {
   isLoaded.value = true;
-  gameStore.setGameDifficultyFromLocalStorage();
-  gameStore.setDifficulty(gameStore.getDifficulty());
+  gameStore.loadDifficultyFromLocalStorage();
+  gameStore.setDifficulty(gameStore.difficulty);
+  gameStore.initializeGame();
 })
 
 </script>
 
 <template>
-  <EndGameMessage v-if="gameStore.isEndGame()" />
+  <EndGameMessage v-if="gameStore.isGameOver()" />
   <div class="container">
     <Navbar />
     <div class="game" v-if="isLoaded" >
