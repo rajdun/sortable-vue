@@ -2,14 +2,18 @@
 
 
 // eslint-disable-next-line no-unused-vars
+import { useRouter } from 'vue-router'
+
 const props = defineProps({
   animateStartGame: Boolean
 });
 
+var router = useRouter();
+
 </script>
 
 <template>
-  <footer :class="animateStartGame ? 'jumpToBottom' : ''">
+  <footer @click="" :class="animateStartGame ? 'jumpToBottom' : ''">
     <hr>
     <p>How to play</p>
   </footer>
