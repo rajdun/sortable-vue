@@ -27,6 +27,7 @@ setInterval(function() {
   h1 {
     font-size: 10rem;
     margin: 0;
+    padding: 0;
     text-align: center;
   }
 

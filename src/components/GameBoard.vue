@@ -7,7 +7,6 @@ const gameStore = useGame()
 const matrix = computed(() => gameStore.getMatrix().matrix)
 
 function handleClick(x, y) {
-  console.log(321)
   gameStore.setCell(x, y)
 }
 </script>
@@ -42,6 +41,7 @@ function handleClick(x, y) {
 table {
   border-collapse: separate;
   border-spacing: 1em;
+  margin-top: 2.5rem;
 }
 
 button {

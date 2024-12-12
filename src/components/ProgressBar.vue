@@ -16,14 +16,15 @@ const props = defineProps({
 .progress-bar {
   width: 100%;
   height: 0.5rem;
-  background-color: var(--vt-c-white-mute);
+  background-color: var(--color-background);
   border-radius: 0.5rem;
   overflow: hidden;
+  border: 1px solid var(--color-text);
 }
 
 .progress-bar__fill {
   height: 100%;
-  background-color: var(--vt-c-white);
+  background-color: var(--color-text);
   transition: width 0.1s;
 }
 </style>

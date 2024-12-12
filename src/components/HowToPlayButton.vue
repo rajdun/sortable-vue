@@ -1,19 +1,17 @@
 <script setup>
 
+import { useApp } from '@/stores/app.js'
 
-// eslint-disable-next-line no-unused-vars
-import { useRouter } from 'vue-router'
-
-const props = defineProps({
+defineProps({
   animateStartGame: Boolean
-});
+})
 
-var router = useRouter();
+const appConfig = useApp();
 
 </script>
 
 <template>
-  <footer @click="" :class="animateStartGame ? 'jumpToBottom' : ''">
+  <footer @click="appConfig.toggleHelp()" :class="animateStartGame ? 'jumpToBottom' : ''">
     <hr>
     <p>How to play</p>
   </footer>
